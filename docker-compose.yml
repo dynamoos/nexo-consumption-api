@@ -1,0 +1,35 @@
+name: nexo-consumption-api
+
+services:
+  # --- The service ---------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nexo_consumption_api
+    env_file:
+      - .env
+    environment:
+      DEBUG: "False"
+      FORCE_HTTPS: "False"
+    networks:
+      - traefik_proxy
+      - prod_backend
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - import urllib.request; urllib.request.urlopen('http://localhost:8000/api/consumption/health')
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+# --- Where it is reached from and where it reads from ----------------------------
+networks:
+  traefik_proxy:
+    external: true
+  prod_backend:
+    external: true

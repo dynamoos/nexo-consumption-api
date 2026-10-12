@@ -1,0 +1,25 @@
+# Secrets and local environment
+.env
+.env.*
+
+# Version control and editors
+.git
+.gitignore
+.idea
+.vscode
+.DS_Store
+
+# Python artifacts and caches
+.venv
+__pycache__
+*.py[oc]
+.ruff_cache
+.mypy_cache
+.pytest_cache
+
+# Not needed to run the service
+tests
+README.md
+Dockerfile
+docker-compose*.yml
+.dockerignore
