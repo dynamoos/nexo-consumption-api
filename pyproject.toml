@@ -1,0 +1,56 @@
+[project]
+name = "nexo-consumption-api"
+version = "0.1.0"
+description = "Internal API exposing Nexo chatbot conversation consumption for monthly pre-invoicing."
+readme = "README.md"
+authors = [{ name = "Anthonny Gomez", email = "bi.team@onbotgo.com" }]
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1.2",
+    "django-cors-headers>=4.9.0",
+    "django-environ>=0.14.0",
+    "djangorestframework>=3.18.3",
+    "gunicorn>=26.2.0",
+    "psycopg[binary]>=3.3.6",
+]
+
+[dependency-groups]
+dev = [
+  "ruff>=0.16.2",
+  "mypy>=2.3.0",
+  "django-stubs>=6.1.0",
+  "pytest-django>=4.14.0",
+  "djangorestframework-stubs>=3.18.1",
+]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 88
+src = ["contexts", "config", "tests"]
+extend-exclude = ["**/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "TID", "RUF", "DJ"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["contexts", "config", "tests"]
+
+[tool.mypy]
+python_version = "3.14"
+strict = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+# Declared here and not left to pytest-django: a domain test must run with
+# the plugin switched off, and without this it cannot even find the package.
+pythonpath = ["."]
+testpaths = ["tests"]
+
+# django-environ ships no types, and no stub package exists for it.
+[[tool.mypy.overrides]]
+module = ["environ.*"]
+ignore_missing_imports = true
