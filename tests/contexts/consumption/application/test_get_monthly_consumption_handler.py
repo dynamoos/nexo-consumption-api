@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, date, datetime, time
 from uuid import uuid4
 
 import pytest
@@ -24,7 +24,10 @@ from tests.contexts.consumption.in_memory_consumption_repository import (
 
 def a_lead(day: date, stage: LeadStage) -> LeadConsumption:
     return LeadConsumption(
-        day=day, conversation_id=uuid4(), lead_id=uuid4(), stage=stage
+        registered_at=datetime.combine(day, time(12), tzinfo=UTC),
+        conversation_id=uuid4(),
+        lead_id=uuid4(),
+        stage=stage,
     )
 
 

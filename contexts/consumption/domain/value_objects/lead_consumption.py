@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from datetime import UTC, date, datetime
 from uuid import UUID
 
 from contexts.consumption.domain.value_objects.conversation_type import (
@@ -10,12 +10,16 @@ from contexts.consumption.domain.value_objects.lead_stage import LeadStage
 
 @dataclass(frozen=True)
 class LeadConsumption:
-    """What one lead of a conversation used, on the day it was recorded."""
+    """What one lead of a conversation used, from the moment it was recorded."""
 
-    day: date
+    registered_at: datetime
     conversation_id: UUID
     lead_id: UUID
     stage: LeadStage
+
+    @property
+    def day(self) -> date:
+        return self.registered_at.astimezone(UTC).date()
 
     @property
     def conversation_type(self) -> ConversationType:

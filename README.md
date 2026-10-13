@@ -36,7 +36,7 @@ the same query parameters.
 ```
 
 ```json
-{"items": [{"day": "2026-09-30", "conversation_id": "…", "lead_id": "…", "stage": "inicial", "conversation_type": "iniciada"}]}
+{"items": [{"day": "2026-09-30", "registered_at": "2026-09-30T23:12:05Z", "conversation_id": "…", "lead_id": "…", "stage": "inicial", "conversation_type": "iniciada"}]}
 ```
 
 | Status | When |
@@ -98,7 +98,8 @@ Public URL: `https://<domain>/nexo/api/consumption/monthly?start=…&end=…`
 | `lead`, `lead enriquecido` | `completa` |
 
 - A status that names no stage is not counted.
-- Days are **UTC days**.
+- Days are **UTC days**. Each lead also carries `registered_at`, the exact
+  moment it was recorded, in UTC, so a caller can place it in its own time zone.
 - Every lead counts once, even when a conversation has several, or the same
   property appears more than once. This is the billing rule.
 - The database is only read, never written.

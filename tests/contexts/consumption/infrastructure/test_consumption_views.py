@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 import pytest
@@ -60,7 +60,10 @@ def test_a_caller_without_the_token_is_unauthorized() -> None:
 
 
 def test_a_valid_request_answers_with_each_lead() -> None:
-    lead = LeadConsumption(date(2026, 9, 3), uuid4(), uuid4(), LeadStage.LEAD)
+    lima = timezone(timedelta(hours=-5))
+    lead = LeadConsumption(
+        datetime(2026, 8, 31, 19, 12, 5, tzinfo=lima), uuid4(), uuid4(), LeadStage.LEAD
+    )
 
     response = ask(InMemoryConsumptionRepository([lead]), SEPTEMBER)
 
@@ -68,7 +71,8 @@ def test_a_valid_request_answers_with_each_lead() -> None:
     assert response.data == {
         "items": [
             {
-                "day": "2026-09-03",
+                "day": "2026-09-01",
+                "registered_at": "2026-09-01T00:12:05Z",
                 "conversation_id": str(lead.conversation_id),
                 "lead_id": str(lead.lead_id),
                 "stage": "lead",

@@ -1,5 +1,3 @@
-from datetime import UTC
-
 from contexts.consumption.domain.value_objects.lead_consumption import (
     LeadConsumption,
 )
@@ -16,7 +14,7 @@ def to_domain(record: LeadRecord) -> LeadConsumption | None:
         return None
 
     return LeadConsumption(
-        day=record.created_at.astimezone(UTC).date(),
+        registered_at=record.created_at,
         conversation_id=record.conversation_id,
         lead_id=record.id,
         stage=stage,

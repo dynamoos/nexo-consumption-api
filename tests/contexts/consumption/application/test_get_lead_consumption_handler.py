@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import UTC, date, datetime, time
 from uuid import UUID, uuid4
 
 import pytest
@@ -23,10 +23,13 @@ from tests.contexts.consumption.in_memory_consumption_repository import (
 
 
 def a_lead(
-    day: date, stage: LeadStage, conversation_id: UUID | None = None
+    day: date,
+    stage: LeadStage,
+    conversation_id: UUID | None = None,
+    registered_at: datetime | None = None,
 ) -> LeadConsumption:
     return LeadConsumption(
-        day=day,
+        registered_at=registered_at or datetime.combine(day, time(12), tzinfo=UTC),
         conversation_id=conversation_id or uuid4(),
         lead_id=uuid4(),
         stage=stage,
@@ -72,6 +75,19 @@ def test_each_line_says_its_stage_and_what_it_is_billed_as() -> None:
         ("prelead", "parcial"),
         ("lead enriquecido", "completa"),
     ]
+
+
+def test_each_line_says_the_moment_it_was_registered() -> None:
+    late_in_lima = datetime(2026, 9, 1, 0, 12, 5, tzinfo=UTC)
+
+    items = per_lead(
+        [a_lead(date(2026, 9, 1), LeadStage.INITIAL, registered_at=late_in_lima)],
+        date(2026, 9, 1),
+        date(2026, 9, 30),
+    )
+
+    assert items[0].registered_at == late_in_lima
+    assert items[0].day == date(2026, 9, 1)
 
 
 def test_leads_outside_the_range_are_left_out() -> None:

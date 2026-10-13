@@ -31,6 +31,7 @@ def test_a_billable_lead_is_rebuilt_with_its_identities() -> None:
     assert lead.lead_id == record.id
     assert lead.conversation_id == record.conversation_id
     assert lead.stage is LeadStage.LEAD
+    assert lead.registered_at == record.created_at
     assert lead.day == date(2026, 9, 30)
 
 

@@ -22,6 +22,7 @@ class GetLeadConsumptionHandler:
             items=[
                 LeadConsumptionItem(
                     day=row.day,
+                    registered_at=row.registered_at,
                     conversation_id=str(row.conversation_id),
                     lead_id=str(row.lead_id),
                     stage=row.stage.value,

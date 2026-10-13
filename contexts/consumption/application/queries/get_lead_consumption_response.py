@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 
 
 @dataclass(frozen=True)
@@ -7,6 +7,7 @@ class LeadConsumptionItem:
     """One lead of a conversation, and what it is billed as."""
 
     day: date
+    registered_at: datetime
     conversation_id: str
     lead_id: str
     stage: str

@@ -1,3 +1,4 @@
+from datetime import UTC
 from typing import Any
 
 from rest_framework import serializers
@@ -14,6 +15,7 @@ class LeadConsumptionItemSerializer(serializers.Serializer[Any]):
     """What a browse of consumption shows about one lead."""
 
     day = serializers.DateField()
+    registered_at = serializers.DateTimeField(default_timezone=UTC)
     conversation_id = serializers.CharField()
     lead_id = serializers.CharField()
     stage = serializers.CharField()
