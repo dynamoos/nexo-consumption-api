@@ -98,7 +98,7 @@ Public URL: `https://<domain>/nexo/api/consumption/monthly?start=…&end=…`
 | `lead`, `lead enriquecido` | `completa` |
 
 - A status that names no stage is not counted.
-- Days are **UTC days**, which is how the July–September pre-invoices were cut.
+- Days are **UTC days**.
 - Every lead counts once, even when a conversation has several, or the same
   property appears more than once. This is the billing rule.
 - The database is only read, never written.
