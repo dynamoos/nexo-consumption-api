@@ -99,12 +99,9 @@ Public URL: `https://<domain>/nexo/api/consumption/monthly?start=…&end=…`
 
 - A status that names no stage is not counted.
 - Days are **UTC days**, which is how the July–September pre-invoices were cut.
+- Every lead counts once, even when a conversation has several, or the same
+  property appears more than once. This is the billing rule.
 - The database is only read, never written.
-
-## Open questions
-
-- Is billing per lead row, or per conversation and the stage it reached?
-- Do repeated rows for the same property in one conversation count more than once?
 
 ## Layout
 
